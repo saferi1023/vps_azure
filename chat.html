@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Virtual Patient System</title>
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+    <script src="./js/chat_azure_assistant.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+        #videoContainer {
+            flex: 1;
+            position: relative;
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 16 / 9;
+        }
+        #remoteVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #overlayArea {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        #chatHistory {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #userInputArea {
+            margin-top: 10px;
+        }
+        #userMessageBox {
+            width: 100%;
+            min-height: 100px;
+            max-height: 200px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            resize: vertical;
+        }
+        #uploadImgIcon {
+            margin-top: 10px;
+        }
+        #startVideo {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Virtual Patient System</h1>
+        <div class="controls">
+            <button id="startSession" onclick="window.startSession()">Open Avatar Session</button>
+            <button id="startVideo" onclick="window.startVideo()" style="display:none;">Start Video</button>
+            <button id="microphone" onclick="window.microphone()" disabled>Start Microphone</button>
+            <button id="stopSpeaking" onclick="stopSpeaking()" disabled>Stop Speaking</button>
+            <button id="clearChatHistory" onclick="window.clearChatHistory()">Clear Chat History</button>
+            <button id="stopSession" onclick="window.stopSession()" disabled>Close Avatar Session</button>
+        </div>
+        <div class="main-content">
+            <div id="videoContainer">
+                <video id="remoteVideo" autoplay playsinline></video>
+                <div id="overlayArea"></div>
+            </div>
+            <div class="chat-container">
+                <div id="chatHistory"></div>
+                <div id="userInputArea">
+                    <div id="showTypeMessageCheckbox">
+                        <input type="checkbox" id="showTypeMessage" onchange="window.updateTypeMessageBox()" disabled>
+                        <label for="showTypeMessage">Type Message</label>
+                    </div>
+                    <div id="userMessageBox" contentEditable="true" hidden></div>
+                </div>
+                <div>
+                    <img id="uploadImgIcon" src="./image/attachment.jpg" alt="Upload" style="cursor: pointer;" hidden />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
